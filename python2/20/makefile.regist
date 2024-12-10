@@ -1,0 +1,12 @@
+PYLIB = /usr/local/bin
+PYINC = /usr/local/include/python3.12
+
+CMODS = cregister.so
+
+all: $(CMODS)
+
+cregister.so: cregister.c
+	gcc cregister.c -g -L$(PYINC) -shared -L$(PYLIB) -lpython3.12 -o $@
+
+clean:
+	rm -f *.pyc $(CMODS)

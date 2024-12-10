@@ -1,0 +1,31 @@
+PYLIB = /usr/local/bin
+PYINC = /usr/local/include/python3.12
+SWIG  = /cygdrive/c/temp/swigwin-2.0.0/swig
+
+all: _number.so number.py
+
+# wrapper + real class
+_number.so: number_wrap.o number.o
+	g++ -shared number_wrap.o number.o -L$(PYLIB) -lpython3.12 -o $@
+
+# generated class wrapper module(s)
+number_wrap.o: number_wrap.cxx number.h
+	g++ number_wrap.cxx -c -g -L$(PYINC)
+
+number_wrap.cxx: number.i
+	$(SWIG) -c++ -python number.i
+
+number.py: number.i
+	$(SWIG) -c++ -python number.i
+
+# wrapped C++ class code
+number.o: number.cxx number.h
+	g++ number.cxx -c -g -Wno-deprecated
+
+cxxtest:
+	g++ main.cxx number.cxx -Wno-deprecated
+
+clean:
+	rm -f *.pyc *.o *.so core a.exe
+force:
+	rm -f *.pyc *.o *.so core a.exe number_wrap.cxx number.py

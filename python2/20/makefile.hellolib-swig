@@ -1,0 +1,17 @@
+PYLIB = /usr/local/bin
+PYINC = /usr/local/include/python3.12
+CLIB  = ../HelloLib
+SWIG  = /cygdrive/c/temp/swigwin-2.0.0/swig
+
+_hellowrap.so: hellolib_wrap.o $(CLIB)/hellolib.o gcc -shared hellolib_wrap.o $(CLIB)/hellolib.o \ -L$(PYLIB) -lpython3.12 -o $@
+
+hellolib_wrap.o: hellolib_wrap.c $(CLIB)/hellolib.h gcc hellolib_wrap.c -g -L$(CLIB) -L$(PYINC) -c -o $@
+
+hellolib_wrap.c: hellolib.i $(SWIG) -python -L$(CLIB) hellolib.i
+
+$(CLIB)/hellolib.o: $(CLIB)/hellolib.c $(CLIB)/hellolib.h gcc $(CLIB)/hellolib.c -g -I$(CLIB) -c -o $(CLIB)/hellolib.o
+
+clean:
+	rm -f *.so *.o *.pyc core
+force:
+	rm -f *.so *.o *.pyc core hellolib_wrap.c hellowrap.py

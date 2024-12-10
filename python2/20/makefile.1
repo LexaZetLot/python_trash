@@ -1,0 +1,15 @@
+PYLIB = /usr/local/bin
+PYINC = /usr/local/include/python3.12
+
+embed-simple: embed-simple.o
+	gcc embed-simple.o -L$(PYLIB) -lpython3.12 -g -o embed-simple
+
+embed-simple.o: embed-simple.c
+	gcc embed-simple.c -c -g -I$(PYINC)PYLIB = /usr/local/bin
+PYINC = /usr/local/include/python3.12
+
+embed-simple: embed-simple.o
+	gcc embed-simple.o -L$(PYLIB) -lpython3.12 -g -o embed-simple
+
+embed-simple.o: embed-simple.c
+	gcc embed-simple.c -c -g -I$(PYINC)

@@ -1,0 +1,8 @@
+PYLIB = /usr/local/bin
+PYINC = /usr/local/include/python3.12
+
+hello.so: hello.c
+	gcc hello.c -g -L$(PYINC) -shared -L$(PYLIB) -lpython3.12 -o hello.so
+
+clean:
+	rm -f hello.so core
